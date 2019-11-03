@@ -67,8 +67,6 @@ const App = () => {
 
   recognition.start();
 
-  console.log(recognition);
-
   return (
     <LayoutContainer>
       <Layout>
