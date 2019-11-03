@@ -42,7 +42,10 @@ const App = () => {
 
   var recognition = new SpeechRecognition();
   var speechRecognitionList = new SpeechGrammarList();
-  speechRecognitionList.addFromString(["enhance"], 1);
+  speechRecognitionList.addFromString(
+    ["enhance", "de enhance", "deenhance"],
+    1
+  );
   recognition.grammars = speechRecognitionList;
   //recognition.continuous = false;
   recognition.lang = "en-US";
@@ -50,10 +53,16 @@ const App = () => {
   recognition.maxAlternatives = 1;
 
   recognition.onresult = function(event) {
-    setEnhanceLevel(enhanceLevel + 1);
+    var last = event.results.length - 1;
+    var word = event.results[last][0].transcript;
 
-    console.log("event -> ", event);
-    console.log("Confidence: " + event.results[0][0].confidence);
+    setEnhanceLevel(enhanceLevel + 1);
+    word === "enhance"
+      ? setEnhanceLevel(enhanceLevel + 1)
+      : setEnhanceLevel(enhanceLevel - 1);
+
+    // console.log("event -> ", event);
+    // console.log("Confidence: " + event.results[0][0].confidence);
   };
 
   recognition.onspeechend = async function() {
